@@ -33,11 +33,12 @@ const putItem = async (pk: string) => {
                 sk: 'allowed'
             }
         }))
+        console.info('Passing Public pk', { pk })
     } catch (e) {
         console.error('Failing pk', { pk })
     }
 }
 
-putItem('PUBLIC#')
+putItem('PUBLIC#1234-412412')
 putItem('PUBLIC#1')
 putItem('MYPUBLIC#1')

@@ -8,8 +8,10 @@ Creating a construct for Cognito SaaS Multi-tenancy when using Federated Access.
 
 ## To Do
 
-- [ ] Create custom resource that sets principal identity attributes on the federated identities.
-- [ ] Create policies which use in fine-grained access control.
+- [x] Create custom resource that sets principal identity attributes on the federated identities.
+- [x] Create policies which use in fine-grained access control.
+- [ ] Setup site for cognito authentication:
+  - [ ] https://serverless-stack.com/chapters/using-cognito-to-add-authentication-to-a-serverless-app.html
 - [ ] Demonstrate solutions for:
   - [ ] Public information
   - [ ] Private information shared by many users in the tenant

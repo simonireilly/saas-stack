@@ -1,0 +1,35 @@
+{
+  "name": "saas-stack",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "sst test",
+    "start": "sst start",
+    "build": "sst build",
+    "deploy": "sst deploy",
+    "remove": "sst remove",
+    "client": "ts-node ./client/dynamodb.ts"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "1.105.0",
+    "@aws-sdk/client-cognito-identity": "latest",
+    "@aws-sdk/client-dynamodb": "^3.20.0",
+    "@aws-sdk/client-s3": "latest",
+    "@aws-sdk/credential-provider-cognito-identity": "latest",
+    "@aws-sdk/lib-dynamodb": "^3.20.0",
+    "@aws-sdk/util-dynamodb": "^3.20.0",
+    "@serverless-stack/static-site-env": "^0.36.0",
+    "@types/aws-lambda": "^8.10.70",
+    "aws-sdk": "^2.939.0",
+    "ts-node": "^10.1.0"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-cognito": "1.105.0",
+    "@aws-cdk/aws-iam": "1.105.0",
+    "@aws-cdk/aws-s3": "1.105.0",
+    "@aws-cdk/core": "1.105.0",
+    "@aws-cdk/custom-resources": "1.105.0",
+    "@serverless-stack/cli": "0.30.0",
+    "@serverless-stack/resources": "0.30.0"
+  }
+}

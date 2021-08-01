@@ -1,3 +1,4 @@
+import { StringAttribute } from "@aws-cdk/aws-cognito";
 import { Effect, PolicyStatement } from "@aws-cdk/aws-iam";
 import * as sst from "@serverless-stack/resources";
 import { PrincipalTagAttributeMap } from "./constructs/SetPrincipalIdentityAttributesCognito";
@@ -8,7 +9,20 @@ export default class MyStack extends sst.Stack {
 
     // Add cognito auth
     const auth = new sst.Auth(this, 'BaseAuth', {
-      cognito: true,
+      cognito: {
+        userPool: {
+          // Users will login using their email and password
+          signInAliases: { email: true, phone: true },
+          customAttributes: {
+            // Require a uuidV4 for the org iid
+            org: new StringAttribute({
+              minLen: 36,
+              maxLen: 36,
+              mutable: false
+            })
+          }
+        },
+      },
     })
 
     // Create a simple table
@@ -82,8 +96,22 @@ export default class MyStack extends sst.Stack {
       publicPolicy
     ])
 
+    // Deploy our React app
+    const site = new sst.ReactStaticSite(this, "NextJSSite", {
+      path: "frontend",
+      buildOutput: "out",
+      // Pass in our environment variables
+      environment: {
+        REACT_APP_REGION: scope.region,
+        REACT_APP_USER_POOL_ID: auth.cognitoUserPool?.userPoolId || '',
+        REACT_APP_IDENTITY_POOL_ID: auth.cognitoCfnIdentityPool.ref,
+        REACT_APP_USER_POOL_CLIENT_ID:
+          auth.cognitoUserPoolClient?.userPoolClientId || '',
+      },
+    });
 
     this.addOutputs({
+      SiteUrl: site.url,
       'IdentityPoolId': auth.cognitoCfnIdentityPool.ref,
       'UserPoolId': auth.cognitoUserPool?.userPoolId || '',
       'ClientId': auth.cognitoUserPoolClient?.userPoolClientId || '',

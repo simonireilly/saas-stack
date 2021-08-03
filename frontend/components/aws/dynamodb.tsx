@@ -1,12 +1,12 @@
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
+import { fromCognitoIdentityPool, FromCognitoIdentityPoolParameters } from "@aws-sdk/credential-provider-cognito-identity";
 import { DynamoDBDocumentClient, GetCommand, GetCommandOutput } from "@aws-sdk/lib-dynamodb";
 import { FC, FormEvent, useEffect, useState } from "react";
 
 const REGION = process.env.NEXT_PUBLIC_REGION
 const identityPoolId = String(process.env.NEXT_PUBLIC_IDENTITY_POOL_ID)
-const TableName = String(process.env.MULTI_TENANT_TABLE_NAME)
+const TableName = String(process.env.NEXT_PUBLIC_MULTI_TENANT_TABLE_NAME)
 
 const providerName = `cognito-idp.${REGION}.amazonaws.com/${process.env.NEXT_PUBLIC_USER_POOL_ID}`
 
@@ -40,16 +40,31 @@ const getItem = async (userClient: DynamoDBDocumentClient,  pk: string) => {
   return item
 }
 
-// Set the default credentials.
-const cognitoCredentialProvider = (idToken: string) => fromCognitoIdentityPool({
-  client: cognitoClient,
-  identityPoolId,
-  logins: {
-    [providerName]: idToken
-  }
-})
 
-export const DynamoComponent: FC<{idToken: string}> = ({idToken}) => {
+/**
+ * If idToken exists, use authenticated permissions for dynamo
+ *
+ * @param idToken
+ */
+const cognitoCredentialProvider = (idToken: string | undefined) => {
+  const config: FromCognitoIdentityPoolParameters = {
+    client: cognitoClient,
+    identityPoolId,
+  }
+
+
+  if(idToken) {
+    console.info('Setting login token')
+
+    config['logins'] = {
+      [providerName]: idToken
+    }
+  }
+
+  return fromCognitoIdentityPool(config)
+}
+
+export const DynamoComponent: FC<{idToken: string | undefined}> = ({idToken}) => {
   const [userClient, setUserClient] = useState<DynamoDBDocumentClient>()
   const [pk, setPk] = useState<string>('')
   const [item, setItem] = useState<Record<string, unknown>>()

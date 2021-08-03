@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/cognito.css'
 import type { AppProps } from 'next/app'
 import { Amplify } from 'aws-amplify'
 

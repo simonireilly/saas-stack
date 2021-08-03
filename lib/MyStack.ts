@@ -1,8 +1,8 @@
 import * as sst from "@serverless-stack/resources";
 import * as cdk from '@aws-cdk/core'
-import { StringAttribute } from "@aws-cdk/aws-cognito";
-import { Effect, PolicyStatement } from "@aws-cdk/aws-iam";
 import { PrincipalTagAttributeMap } from "./constructs/SetPrincipalIdentityAttributesCognito";
+import { StringAttribute, UserPoolOperation } from "@aws-cdk/aws-cognito";
+import { Effect, Policy, PolicyStatement } from "@aws-cdk/aws-iam";
 
 export default class MyStack extends sst.Stack {
   constructor(scope: sst.App, id: string, props?: sst.StackProps) {
@@ -15,17 +15,33 @@ export default class MyStack extends sst.Stack {
           // Users will login using their email and password
           signInAliases: { email: true, phone: true },
           customAttributes: {
-            // Require a uuidV4 for the org iid
+            // Require a uuidV4 for the org id
             org: new StringAttribute({
               minLen: 36,
               maxLen: 36,
-              mutable: false
+              mutable: true
             })
           },
           removalPolicy: cdk.RemovalPolicy.DESTROY
-        },
+        }
       },
     })
+
+    const postConfirmationFunction = new sst.Function(this, 'PostConfirmationFunction', {
+      handler: 'src/lambda.postConfirmation'
+    })
+
+    auth.cognitoUserPool?.addTrigger(
+      UserPoolOperation.POST_CONFIRMATION,
+      postConfirmationFunction
+    )
+
+    postConfirmationFunction.role?.attachInlinePolicy(new Policy(this, 'userpool-policy', {
+      statements: [new PolicyStatement({
+        actions: ['cognito-idp:AdminUpdateUserAttributes'],
+        resources: [auth.cognitoUserPool?.userPoolArn || ''],
+      })],
+    }));
 
     // Create a simple table
     const table = new sst.Table(this, 'DynamoDBTableResource', {
@@ -47,7 +63,7 @@ export default class MyStack extends sst.Stack {
       cognitoIdentityPoolRef: auth.cognitoCfnIdentityPool.ref,
       userPoolId: auth.cognitoUserPool?.userPoolId || "",
       principalTags: {
-        org: 'org'
+        org: 'custom:org'
       }
     })
 
@@ -101,14 +117,7 @@ export default class MyStack extends sst.Stack {
       publicPolicy
     ])
 
-    // Deploy our React app
-    const site = new sst.ReactStaticSite(this, "NextJSSite", {
-      path: "frontend",
-      buildOutput: "out",
-    });
-
     this.addOutputs({
-      SiteUrl: site.url,
       'IdentityPoolId': auth.cognitoCfnIdentityPool.ref,
       'UserPoolId': auth.cognitoUserPool?.userPoolId || '',
       'ClientId': auth.cognitoUserPoolClient?.userPoolClientId || '',

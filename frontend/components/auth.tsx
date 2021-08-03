@@ -1,4 +1,4 @@
-import { AmplifyAuthContainer, AmplifyAuthenticator, AmplifySignIn, AmplifySignUp } from "@aws-amplify/ui-react"
+import { AmplifyAuthContainer, AmplifyAuthenticator, AmplifySignIn, AmplifySignOut, AmplifySignUp } from "@aws-amplify/ui-react"
 import { FC } from "react"
 
 export const AuthComponent: FC = () => {
@@ -7,6 +7,7 @@ export const AuthComponent: FC = () => {
       <AmplifySignUp
         slot="sign-up"
         usernameAlias="email"
+        headerText="Create a new tenant"
         formFields={[
           {
             type: "email",
@@ -27,7 +28,8 @@ export const AuthComponent: FC = () => {
           },
         ]}
       />
-      <AmplifySignIn slot="sign-in" usernameAlias="email" />
+      <AmplifySignIn slot="sign-in" usernameAlias="email" headerText="Sign in to tenant" />
+      <AmplifySignOut />
     </AmplifyAuthenticator>
   </AmplifyAuthContainer>
 }

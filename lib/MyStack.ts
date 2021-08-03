@@ -1,6 +1,7 @@
+import * as sst from "@serverless-stack/resources";
+import * as cdk from '@aws-cdk/core'
 import { StringAttribute } from "@aws-cdk/aws-cognito";
 import { Effect, PolicyStatement } from "@aws-cdk/aws-iam";
-import * as sst from "@serverless-stack/resources";
 import { PrincipalTagAttributeMap } from "./constructs/SetPrincipalIdentityAttributesCognito";
 
 export default class MyStack extends sst.Stack {
@@ -20,7 +21,8 @@ export default class MyStack extends sst.Stack {
               maxLen: 36,
               mutable: false
             })
-          }
+          },
+          removalPolicy: cdk.RemovalPolicy.DESTROY
         },
       },
     })
@@ -34,6 +36,9 @@ export default class MyStack extends sst.Stack {
       primaryIndex: {
         partitionKey: 'pk',
         sortKey: 'sk'
+      },
+      dynamodbTable: {
+        removalPolicy: cdk.RemovalPolicy.DESTROY
       }
     })
 
@@ -100,14 +105,6 @@ export default class MyStack extends sst.Stack {
     const site = new sst.ReactStaticSite(this, "NextJSSite", {
       path: "frontend",
       buildOutput: "out",
-      // Pass in our environment variables
-      environment: {
-        REACT_APP_REGION: scope.region,
-        REACT_APP_USER_POOL_ID: auth.cognitoUserPool?.userPoolId || '',
-        REACT_APP_IDENTITY_POOL_ID: auth.cognitoCfnIdentityPool.ref,
-        REACT_APP_USER_POOL_CLIENT_ID:
-          auth.cognitoUserPoolClient?.userPoolClientId || '',
-      },
     });
 
     this.addOutputs({

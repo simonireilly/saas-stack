@@ -16,7 +16,7 @@ const cognitoClient = new CognitoIdentityClient({
 })
 
 const getItem = async (userClient: DynamoDBDocumentClient,  pk: string) => {
-  let item: GetCommandOutput & {status?: 'success' | 'failure'} = {
+  let item: GetCommandOutput & {status?: 'success' | 'failure', message?: string} = {
     $metadata: { },
     status: 'success',
   };
@@ -28,13 +28,15 @@ const getItem = async (userClient: DynamoDBDocumentClient,  pk: string) => {
         TableName,
         Key: {
             pk,
-            sk: 'allowed'
+            sk: 'EXAMPLE'
         }
     }))
+    console.info(item)
     item['status'] = 'success'
   } catch (e) {
     console.error('Failing pk', { pk, e })
     item['status'] = 'failure'
+    item['message'] = e.message
     item['$metadata'] = e.$metadata
   }
 
@@ -100,11 +102,16 @@ export const DynamoComponent: FC = () => {
     }
   }
 
-  return <div>
+  return <div
+    style={{
+      width: "100%"
+    }}
+  >
     <h1>Multi-tenant Dynamo</h1>
     <div style={{
       display: "flex",
-      flexDirection: "row",
+      flexDirection: "column",
+      flexBasis: "0",
     }}>
       <div>
         <p>
@@ -114,11 +121,17 @@ export const DynamoComponent: FC = () => {
         {
           user && (
             <p>
-              Try querying <code>{user.signInUserSession?.idToken.payload['custom:org']}#</code>
+              Try querying your own tenant with the code:
+              <br/>
+              <code>{user.signInUserSession?.idToken.payload['custom:org']}#</code>
             </p>
           )
         }
-        <p>Try querying <code>PUBLIC#1</code></p>
+        <p>
+          Try querying public data available to everyone with:
+          <br />
+          <code>PUBLIC#1</code>
+        </p>
         <form onSubmit={handleOnSubmit}>
           <h3>Get item:</h3>
           <label>
@@ -126,13 +139,17 @@ export const DynamoComponent: FC = () => {
             <input
               type="text"
               value={pk}
-              onChange={e => setPk(e.target.value)} />
+              onChange={e => setPk(e.target.value)}
+              size={40}
+              />
           </label>
           <button type="submit">Get Item</button>
         </form>
       </div>
       <div>
-        <pre>
+        <pre style={{
+          whiteSpace: "pre-wrap"
+        }}>
           {
             JSON.stringify(item, undefined, 2)
           }

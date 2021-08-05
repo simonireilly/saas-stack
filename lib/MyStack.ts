@@ -9,8 +9,6 @@ export default class MyStack extends sst.Stack {
   constructor(scope: sst.App, id: string, props?: sst.StackProps) {
     super(scope, id, props);
 
-
-
     // Add cognito auth
     const auth = new sst.Auth(this, 'BaseAuth', {
       cognito: {
@@ -71,25 +69,24 @@ export default class MyStack extends sst.Stack {
     })
 
     // Update to use non-default principal mapping
-    // new PrincipalTagAttributeMap(this, 'MultiTenancyCognitoConfig', {
-    //   cognitoIdentityPoolRef: auth.cognitoCfnIdentityPool.ref,
-    //   userPoolId: auth.cognitoUserPool?.userPoolId || "",
-    //   principalTags: {
-    //     // Add custom org claim to develop tenant based fine grained access
-    //     // control
-    //     // org: 'org',
-    //     // Keep default mappings required by trust relationship
-    //     username: 'sub',
-    //     client: 'aud'
-    //   }
-    // })
+    new PrincipalTagAttributeMap(this, 'MultiTenancyCognitoConfig', {
+      cognitoIdentityPoolRef: auth.cognitoCfnIdentityPool.ref,
+      userPoolId: auth.cognitoUserPool?.userPoolId || "",
+      principalTags: {
+        // Add custom org claim to develop tenant based fine grained access
+        // control
+        org: 'org',
+        // Keep default mappings required by trust relationship
+        username: 'sub',
+        client: 'aud'
+      }
+    })
 
     const publicPolicy = new PolicyStatement({
       sid: "AllowPrecedingKeysToDynamoDBPublic",
       effect: Effect.ALLOW,
       actions: [
         "dynamodb:GetItem",
-        "dynamodb:PutItem",
         "dynamodb:Query"
       ],
       resources: [
@@ -104,13 +101,14 @@ export default class MyStack extends sst.Stack {
       },
     })
 
-
+    /**
+     * Policy that enables a tenant to access their entire org's data
+     */
     const tenantPolicy = new PolicyStatement({
       sid: "AllowPrecedingKeysToDynamoDBOrganisation",
       effect: Effect.ALLOW,
       actions: [
         "dynamodb:GetItem",
-        "dynamodb:PutItem",
         "dynamodb:Query"
       ],
       resources: [
@@ -130,14 +128,16 @@ export default class MyStack extends sst.Stack {
     ]);
 
     auth.attachPermissionsForAuthUsers([
-      publicPolicy
+      publicPolicy,
+      tenantPolicy
     ])
 
     this.addOutputs({
       'IdentityPoolId': auth.cognitoCfnIdentityPool.ref,
       'UserPoolId': auth.cognitoUserPool?.userPoolId || '',
       'ClientId': auth.cognitoUserPoolClient?.userPoolClientId || '',
-      'TableName': table.tableName
+      'TableName': table.tableName,
+      'Role': JSON.stringify(auth.iamAuthRole.assumeRolePolicy)
     })
   }
 }

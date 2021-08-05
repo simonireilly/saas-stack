@@ -13,7 +13,7 @@ const provider = new AWS.CognitoIdentityServiceProvider({
  *
  * @param event
  */
-export const postConfirmation: PostConfirmationTriggerHandler = async (event) => {
+export const postConfirmation: PostConfirmationTriggerHandler = async (event, context, callback) => {
   const tenant_identifier = uuidv4()
 
   await provider.adminUpdateUserAttributes(
@@ -29,7 +29,8 @@ export const postConfirmation: PostConfirmationTriggerHandler = async (event) =>
     },
   ).promise()
 
-  return {}
+  // Return to Amazon Cognito
+  callback(null, event);
 }
 
 export const preTokenGeneration: PreTokenGenerationTriggerHandler = async (event, context, callback) => {

@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk';
-import { PostConfirmationTriggerHandler  } from "aws-lambda";
+import { PostConfirmationTriggerHandler, PreTokenGenerationTriggerHandler  } from "aws-lambda";
 import {v4 as uuidv4} from 'uuid';
 
 const TENANT_KEY = 'custom:org'
@@ -28,4 +28,20 @@ export const postConfirmation: PostConfirmationTriggerHandler = async (event) =>
       Username: event.userName
     },
   ).promise()
+
+  return {}
+}
+
+export const preTokenGeneration: PreTokenGenerationTriggerHandler = async (event, context, callback) => {
+  console.info(event.request.userAttributes)
+  event.response = {
+    "claimsOverrideDetails": {
+      "claimsToAddOrOverride": {
+        "org": event.request.userAttributes['custom:org'],
+      }
+    }
+  };
+
+  // Return to Amazon Cognito
+  callback(null, event);
 }

@@ -4,9 +4,12 @@ import { PrincipalTagAttributeMap } from "./constructs/SetPrincipalIdentityAttri
 import { StringAttribute, UserPoolOperation } from "@aws-cdk/aws-cognito";
 import { Effect, Policy, PolicyStatement } from "@aws-cdk/aws-iam";
 
+
 export default class MyStack extends sst.Stack {
   constructor(scope: sst.App, id: string, props?: sst.StackProps) {
     super(scope, id, props);
+
+
 
     // Add cognito auth
     const auth = new sst.Auth(this, 'BaseAuth', {
@@ -22,8 +25,8 @@ export default class MyStack extends sst.Stack {
               mutable: true
             })
           },
-          removalPolicy: cdk.RemovalPolicy.DESTROY
-        }
+          removalPolicy: cdk.RemovalPolicy.DESTROY,
+        },
       },
     })
 
@@ -31,9 +34,18 @@ export default class MyStack extends sst.Stack {
       handler: 'src/lambda.postConfirmation'
     })
 
+    const preTokenGeneration = new sst.Function(this, 'PreTokenGenerationFunction', {
+      handler: 'src/lambda.preTokenGeneration'
+    })
+
     auth.cognitoUserPool?.addTrigger(
       UserPoolOperation.POST_CONFIRMATION,
       postConfirmationFunction
+    )
+
+    auth.cognitoUserPool?.addTrigger(
+      UserPoolOperation.PRE_TOKEN_GENERATION,
+      preTokenGeneration
     )
 
     postConfirmationFunction.role?.attachInlinePolicy(new Policy(this, 'userpool-policy', {
@@ -59,13 +71,18 @@ export default class MyStack extends sst.Stack {
     })
 
     // Update to use non-default principal mapping
-    new PrincipalTagAttributeMap(this, 'MultiTenancyCognitoConfig', {
-      cognitoIdentityPoolRef: auth.cognitoCfnIdentityPool.ref,
-      userPoolId: auth.cognitoUserPool?.userPoolId || "",
-      principalTags: {
-        org: 'custom:org'
-      }
-    })
+    // new PrincipalTagAttributeMap(this, 'MultiTenancyCognitoConfig', {
+    //   cognitoIdentityPoolRef: auth.cognitoCfnIdentityPool.ref,
+    //   userPoolId: auth.cognitoUserPool?.userPoolId || "",
+    //   principalTags: {
+    //     // Add custom org claim to develop tenant based fine grained access
+    //     // control
+    //     // org: 'org',
+    //     // Keep default mappings required by trust relationship
+    //     username: 'sub',
+    //     client: 'aud'
+    //   }
+    // })
 
     const publicPolicy = new PolicyStatement({
       sid: "AllowPrecedingKeysToDynamoDBPublic",
@@ -113,7 +130,6 @@ export default class MyStack extends sst.Stack {
     ]);
 
     auth.attachPermissionsForAuthUsers([
-      tenantPolicy,
       publicPolicy
     ])
 

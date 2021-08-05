@@ -2,7 +2,8 @@ import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { fromCognitoIdentityPool, FromCognitoIdentityPoolParameters } from "@aws-sdk/credential-provider-cognito-identity";
 import { DynamoDBDocumentClient, GetCommand, GetCommandOutput } from "@aws-sdk/lib-dynamodb";
-import { FC, FormEvent, useEffect, useState } from "react";
+import { FC, FormEvent, useContext, useEffect, useState } from "react";
+import { UserStore } from "../../contexts/user-provider";
 
 const REGION = process.env.NEXT_PUBLIC_REGION
 const identityPoolId = String(process.env.NEXT_PUBLIC_IDENTITY_POOL_ID)
@@ -64,12 +65,19 @@ const cognitoCredentialProvider = (idToken: string | undefined) => {
   return fromCognitoIdentityPool(config)
 }
 
-export const DynamoComponent: FC<{idToken: string | undefined}> = ({idToken}) => {
+export const DynamoComponent: FC = () => {
+  const { user, authState} = useContext(UserStore)
   const [userClient, setUserClient] = useState<DynamoDBDocumentClient>()
   const [pk, setPk] = useState<string>('')
   const [item, setItem] = useState<Record<string, unknown>>()
 
   useEffect(() => {
+    let idToken = undefined
+
+    if(user) {
+      idToken = user.signInUserSession?.idToken.jwtToken
+    }
+
     const credentials = cognitoCredentialProvider(idToken)
 
     const cognitoDynamoClient = new DynamoDBClient({
@@ -80,7 +88,7 @@ export const DynamoComponent: FC<{idToken: string | undefined}> = ({idToken}) =>
     const ddbDocClient = DynamoDBDocumentClient.from(cognitoDynamoClient);
 
     setUserClient(ddbDocClient)
-  }, [idToken])
+  }, [user, authState])
 
 
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -94,26 +102,42 @@ export const DynamoComponent: FC<{idToken: string | undefined}> = ({idToken}) =>
 
   return <div>
     <h1>Multi-tenant Dynamo</h1>
-    <p>
-      This dynamoDB client is secured to allow authenticated users to access
-      resources, which belong to their organisation.
-    </p>
-    <form onSubmit={handleOnSubmit}>
-      <h3>Get item:</h3>
-      <label>
-        Primary Key:{' '}
-        <input
-          type="text"
-          value={pk}
-          onChange={e => setPk(e.target.value)} />
-      </label>
-      <button type="submit">Get Item</button>
-    </form>
-
-    <pre>
-      {
-        JSON.stringify(item, undefined, 2)
-      }
-    </pre>
+    <div style={{
+      display: "flex",
+      flexDirection: "row",
+    }}>
+      <div>
+        <p>
+          This dynamoDB client is secured to allow authenticated users to access
+          resources, which belong to their organisation.
+        </p>
+        {
+          user && (
+            <p>
+              Try querying <code>{user.signInUserSession?.idToken.payload['custom:org']}#</code>
+            </p>
+          )
+        }
+        <p>Try querying <code>PUBLIC#1</code></p>
+        <form onSubmit={handleOnSubmit}>
+          <h3>Get item:</h3>
+          <label>
+            Primary Key:{' '}
+            <input
+              type="text"
+              value={pk}
+              onChange={e => setPk(e.target.value)} />
+          </label>
+          <button type="submit">Get Item</button>
+        </form>
+      </div>
+      <div>
+        <pre>
+          {
+            JSON.stringify(item, undefined, 2)
+          }
+        </pre>
+      </div>
+    </div>
   </div>
 }

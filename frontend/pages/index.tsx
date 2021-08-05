@@ -1,26 +1,13 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { AuthComponent } from '../components/auth';
-import { Auth } from 'aws-amplify'
 import { DynamoComponent } from '../components/aws/dynamodb';
 import { DesignComponent } from '../components/design-component';
 
+
+import {AuthStateApp} from '../components/auth-state-app'
+
 const Home: NextPage = () => {
-  const [idToken, setIdToken] = useState<string | undefined>()
-
-  useEffect(() => {
-    const authCheck = async () => {
-      const cognitoSession = await Auth.currentSession()
-      console.info('Session', cognitoSession)
-      const idToken = await cognitoSession.getIdToken()
-      setIdToken(idToken.getJwtToken())
-    }
-
-    authCheck()
-  }, []);
-
   return (
     <div className={styles.container}>
         <Head>
@@ -33,20 +20,20 @@ const Home: NextPage = () => {
           <h1 className={styles.title}>
             Multi-tenant SaaS Stack
           </h1>
-          <hr />
+          <br />
           <div style={{
             display: "flex",
             flexDirection: "row",
             columnGap: "2em"
           }}>
             <DesignComponent/>
-            <AuthComponent/>
+            <AuthStateApp />
           </div>
           <div style={{
             display: "flex",
             flexDirection: "row"
           }}>
-              <DynamoComponent idToken={idToken} />
+            <DynamoComponent />
           </div>
         </main>
 

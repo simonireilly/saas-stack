@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import '../styles/cognito.css'
 import type { AppProps } from 'next/app'
 import { Amplify } from 'aws-amplify'
+import { UserContextProvider } from '../contexts/user-provider'
 
 const AuthConfiguration = {
   region: process.env.NEXT_PUBLIC_REGION,
@@ -18,6 +19,8 @@ Amplify.configure({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return <UserContextProvider>
+    <Component {...pageProps} />
+  </UserContextProvider>
 }
 export default MyApp

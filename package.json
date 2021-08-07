@@ -12,17 +12,10 @@
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.111.0",
-    "@aws-sdk/client-cognito-identity": "latest",
-    "@aws-sdk/client-dynamodb": "^3.20.0",
-    "@aws-sdk/client-s3": "latest",
-    "@aws-sdk/credential-provider-cognito-identity": "latest",
-    "@aws-sdk/lib-dynamodb": "^3.20.0",
-    "@aws-sdk/util-dynamodb": "^3.20.0",
-    "@serverless-stack/static-site-env": "^0.36.0",
+    "@serverless-stack/static-site-env": "0.37.1",
     "@types/aws-lambda": "^8.10.70",
     "@types/uuid": "^8.3.1",
-    "prettier": "^2.3.2",
-    "ts-node": "^10.1.0"
+    "prettier": "^2.3.2"
   },
   "dependencies": {
     "@aws-cdk/aws-cognito": "1.111.0",
@@ -30,8 +23,7 @@
     "@aws-cdk/aws-s3": "1.111.0",
     "@aws-cdk/core": "1.111.0",
     "@aws-cdk/custom-resources": "1.111.0",
-    "@serverless-stack/cli": "0.35.1",
-    "@serverless-stack/resources": "0.35.1",
-    "uuid": "^8.3.2"
+    "@serverless-stack/cli": "0.37.1",
+    "@serverless-stack/resources": "0.37.1"
   }
 }

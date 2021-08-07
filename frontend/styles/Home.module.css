@@ -5,7 +5,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .main {
@@ -118,5 +117,18 @@
   .grid {
     width: 100%;
     flex-direction: column;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 600px) {
+  .content {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }

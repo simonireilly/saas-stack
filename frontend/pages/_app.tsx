@@ -15,12 +15,14 @@ Amplify.configure({
   Auth: {
     ...AuthConfiguration,
   },
-  ssr: true
+  ssr: true,
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <UserContextProvider>
-    <Component {...pageProps} />
-  </UserContextProvider>
+  return (
+    <UserContextProvider>
+      <Component {...pageProps} />
+    </UserContextProvider>
+  )
 }
 export default MyApp

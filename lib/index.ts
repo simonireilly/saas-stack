@@ -1,13 +1,24 @@
-import MyStack from "./MyStack";
-import * as sst from "@serverless-stack/resources";
+import { AuthStack } from './AuthStack'
+import * as sst from '@serverless-stack/resources'
+import DataStack from './DataStack'
+import WebStack from './WebStack'
+
+export interface MultiStackProps extends sst.StackProps {
+  auth?: sst.Auth
+  table?: sst.Table
+}
 
 export default function main(app: sst.App): void {
   // Set default runtime for all functions
   app.setDefaultFunctionProps({
-    runtime: "nodejs12.x"
-  });
+    runtime: 'nodejs12.x',
+  })
 
-  new MyStack(app, "my-stack");
-
-  // Add more stacks
+  const authStack = new AuthStack(app, 'AuthStack')
+  const dataStack = new DataStack(app, 'DataStack', {
+    auth: authStack.auth,
+  })
+  const webStack = new WebStack(app, 'WebStack', {
+    table: dataStack.table,
+  })
 }

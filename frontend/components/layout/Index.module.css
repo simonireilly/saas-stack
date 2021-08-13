@@ -57,11 +57,14 @@
   justify-content: flex-start;
   width: 95vw;
   padding: 1rem;
-  column-gap: 2rem;
+  column-gap: 1rem;
 }
 
 .navItem {
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.6rem;
   outline: auto;
+  font-size: 1rem;
+  line-height: 1rem;
+  text-align: center;
 }

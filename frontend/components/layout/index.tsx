@@ -23,6 +23,13 @@ export const Layout: FC = ({ children }) => {
           <Link passHref href="/test">
             <div className={styles.navItem}>Test</div>
           </Link>
+          <a
+            href="https://github.com/simonireilly/saas-stack"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source code... <img src="/github.png" height="32" />
+          </a>
         </nav>
       </header>
 

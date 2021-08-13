@@ -14,17 +14,24 @@ export const AuthStateApp: FC = () => {
     })
   }, [setAuthState, setUser])
 
-  console.info(user)
-
   return authState === AuthState.SignedIn && user ? (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-      }}
-    >
-      <div>Hello, {user?.attributes?.email}</div>
+    <div>
+      <div>
+        <p>Hello, {user?.attributes?.email}</p>
+        <p>Thanks for signing up 👍</p>
+        <p>
+          Below, you can see you JWT identity token claims, Amplify will take
+          these and substitute in your <code>custom:org</code> to secure your
+          data while you are on this site
+        </p>
+        <pre className="pre__responsive">
+          {JSON.stringify(
+            user.signInUserSession?.idToken.payload,
+            undefined,
+            2
+          )}
+        </pre>
+      </div>
       <AmplifySignOut />
     </div>
   ) : (

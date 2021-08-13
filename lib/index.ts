@@ -18,7 +18,9 @@ export default function main(app: sst.App): void {
   const dataStack = new DataStack(app, 'DataStack', {
     auth: authStack.auth,
   })
-  const webStack = new WebStack(app, 'WebStack', {
+
+  new WebStack(app, 'WebStack', {
     table: dataStack.table,
+    auth: authStack.auth,
   })
 }

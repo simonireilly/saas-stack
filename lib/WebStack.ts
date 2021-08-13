@@ -23,6 +23,8 @@ export default class WebStack extends sst.Stack {
       environment,
     })
 
-    this.addOutputs({})
+    this.addOutputs({
+      SiteUrl: nextJsSite.url,
+    })
   }
 }

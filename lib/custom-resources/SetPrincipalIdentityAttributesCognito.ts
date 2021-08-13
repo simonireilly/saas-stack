@@ -25,45 +25,28 @@ export class PrincipalTagAttributeMap extends Construct {
     props: PrincipalTagAttributeMapProp
   ) {
     super(scope, id)
+
+    const baseProps = {
+      service: 'CognitoIdentity',
+      action: 'setPrincipalTagAttributeMap',
+      parameters: {
+        IdentityPoolId: props.cognitoIdentityPoolRef,
+        IdentityProviderName: `cognito-idp.${
+          Stack.of(this).region
+        }.amazonaws.com/${props.userPoolId}`,
+        PrincipalTags: props.principalTags,
+        UseDefaults: false,
+      },
+      physicalResourceId: PhysicalResourceId.of('cognito-set-principal-tags'),
+    }
+
     new AwsCustomResource(this, 'SetPrincipalTagAttributeMapCognito', {
       installLatestAwsSdk: false,
-      onCreate: {
-        service: 'CognitoIdentity',
-        action: 'setPrincipalTagAttributeMap',
-        parameters: {
-          IdentityPoolId: props.cognitoIdentityPoolRef,
-          IdentityProviderName: `cognito-idp.${
-            Stack.of(this).region
-          }.amazonaws.com/${props.userPoolId}`,
-          PrincipalTags: props.principalTags,
-          UseDefaults: false,
-        },
-        physicalResourceId: PhysicalResourceId.of('cognito-set-principal-tags'),
-      },
-      onUpdate: {
-        service: 'CognitoIdentity',
-        action: 'setPrincipalTagAttributeMap',
-        parameters: {
-          IdentityPoolId: props.cognitoIdentityPoolRef,
-          IdentityProviderName: `cognito-idp.${
-            Stack.of(this).region
-          }.amazonaws.com/${props.userPoolId}`,
-          PrincipalTags: props.principalTags,
-          UseDefaults: false,
-        },
-        physicalResourceId: PhysicalResourceId.of('cognito-set-principal-tags'),
-      },
+      onCreate: baseProps,
+      onUpdate: baseProps,
       onDelete: {
-        service: 'CognitoIdentity',
-        action: 'setPrincipalTagAttributeMap',
-        parameters: {
-          IdentityPoolId: props.cognitoIdentityPoolRef,
-          IdentityProviderName: `cognito-idp.${
-            Stack.of(this).region
-          }.amazonaws.com/${props.userPoolId}`,
-          UseDefaults: true,
-        },
-        physicalResourceId: PhysicalResourceId.of('cognito-set-principal-tags'),
+        ...baseProps,
+        parameters: { ...baseProps.parameters, UseDefaults: true },
       },
       policy: AwsCustomResourcePolicy.fromSdkCalls({
         resources: AwsCustomResourcePolicy.ANY_RESOURCE,

@@ -2,7 +2,6 @@ amplify-authenticator {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
-  max-height: 45vh;
-  min-height: 45vh;
+
+  --container-height: 50vh;
 }

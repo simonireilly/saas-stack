@@ -14,3 +14,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.pre__responsive {
+  overflow-x: scroll;
+  max-width: 90vw;
+  margin: 0;
+}

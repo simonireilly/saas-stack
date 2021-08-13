@@ -3,6 +3,7 @@ import '../styles/cognito.css'
 import type { AppProps } from 'next/app'
 import { Amplify } from 'aws-amplify'
 import { UserContextProvider } from '../contexts/user-provider'
+import { Layout } from '../components/layout'
 
 const AuthConfiguration = {
   region: process.env.NEXT_PUBLIC_REGION,
@@ -11,17 +12,21 @@ const AuthConfiguration = {
   userPoolWebClientId: process.env.NEXT_PUBLIC_USER_POOL_CLIENT_ID,
 }
 
-Amplify.configure({
-  Auth: {
-    ...AuthConfiguration,
-  },
-  ssr: true,
-})
+try {
+  // Next build will evaluate this; we only want this in the browser
+  Amplify.configure({
+    Auth: AuthConfiguration,
+  })
+} catch (e) {
+  console.error(e.message)
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UserContextProvider>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </UserContextProvider>
   )
 }

@@ -1,0 +1,436 @@
+digraph "Diagram" {
+  splines = "ortho";
+  pad = "1.0";
+  nodesep = "0.60";
+  ranksep = "0.75";
+  fontname = "Sans-Serif";
+  fontsize = "15";
+  dpi = "200";
+  rankdir = "BT";
+  compound = "true";
+  fontcolor = "#222222";
+  edge [
+    color = "#D5871488",
+    penwidth = 2,
+    arrowhead = "dot",
+    arrowtail = "dot",
+  ];
+  node [
+    shape = "box",
+    style = "rounded",
+    fixedsize = true,
+    width = 1.7,
+    height = 1.7,
+    labelloc = "c",
+    imagescale = true,
+    fontname = "Sans-Serif",
+    fontsize = 8,
+    margin = 8,
+  ];
+  subgraph "App" {
+    subgraph "cluster-SubGraph.App" {
+      graph [
+        label = "App",
+        labelloc = "b",
+        labeljust = "l",
+        margin = "10",
+        fontsize = "16",
+        penwidth = "2",
+        pencolor = "#888888",
+        style = "filled,rounded",
+        fillcolor = "#f3f3f3",
+      ];
+      subgraph "cluster-SubGraph.dev-saas-stack-AuthStack" {
+        graph [
+          label = "dev-saas-stack-AuthStack",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        "dev-saas-stack-AuthStack/PostConfirmationFunction" [
+          label = "\nPostConfirmationFunct",
+          fontsize = 12,
+          image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 2,
+          height = 2.4819999999999998,
+        ];
+        "dev-saas-stack-AuthStack/userpool-policy" [
+          label = " userpool-policy",
+          fontsize = 12,
+          image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_AWS-Identity-and-Access-Management_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.466,
+        ];
+        "dev-saas-stack-AuthStack/AWS679f53fac002430cb0da5b7982bd2287" [
+          label = "\nAWS679f53fac002430cb0",
+          fontsize = 12,
+          image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 2,
+          height = 2.4819999999999998,
+        ];
+        "dev-saas-stack-AuthStack/MultiTenancyCognitoConfig/SetPrincipalTagAttributeMapCognito" [
+          label = "\nSetPrincipalTagAttrib",
+          fontsize = 12,
+          image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_AWS-CloudFormation_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.682,
+        ];
+        subgraph "cluster-SubGraph.BaseAuth" {
+          graph [
+            label = "BaseAuth",
+            labelloc = "b",
+            labeljust = "l",
+            margin = "10",
+            fontsize = "16",
+            penwidth = "2",
+            pencolor = "#888888",
+            style = "filled,rounded",
+            fillcolor = "#d6d6d6",
+          ];
+          "dev-saas-stack-AuthStack/BaseAuth/UserPool" [
+            label = " UserPool",
+            fontsize = 12,
+          ];
+          "dev-saas-stack-AuthStack/BaseAuth/UserPoolClient" [
+            label = " UserPoolClient",
+            fontsize = 12,
+          ];
+          "dev-saas-stack-AuthStack/BaseAuth/IdentityPool" [
+            label = " COGNITO IDENTITYPOOL\nIdentityPool",
+            fontsize = 12,
+          ];
+          "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolAuthRole" [
+            label = " IdentityPoolAuthRole",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_AWS-Identity-and-Access-Management_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolUnauthRole" [
+            label = "\nIdentityPoolUnauthRol",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_AWS-Identity-and-Access-Management_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolRoleAttachment" [
+            label = " COGNITO",
+            fontsize = 12,
+          ];
+        }
+      }
+      subgraph "cluster-SubGraph.dev-saas-stack-DataStack" {
+        graph [
+          label = "dev-saas-stack-DataStack",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        "dev-saas-stack-DataStack/DynamoDBTableResource/Table" [
+          label = " Table",
+          fontsize = 12,
+          image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.466,
+        ];
+      }
+      subgraph "cluster-SubGraph.dev-saas-stack-WebStack" {
+        graph [
+          label = "dev-saas-stack-WebStack",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        subgraph "cluster-SubGraph.NextJSSite" {
+          graph [
+            label = "NextJSSite",
+            labelloc = "b",
+            labeljust = "l",
+            margin = "10",
+            fontsize = "16",
+            penwidth = "2",
+            pencolor = "#888888",
+            style = "filled,rounded",
+            fillcolor = "#d6d6d6",
+          ];
+          "dev-saas-stack-WebStack/NextJSSite/Bucket" [
+            label = " Bucket",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Storage/64/Arch_Amazon-S3-Standard_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "dev-saas-stack-WebStack/NextJSSite/AwsCliLayer" [
+            label = " AwsCliLayer",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "dev-saas-stack-WebStack/NextJSSite/CustomResourceUploader" [
+            label = "\nCustomResourceUploade",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.4819999999999998,
+          ];
+          "dev-saas-stack-WebStack/NextJSSite/CustomResourceHandler" [
+            label = "\nCustomResourceHandler",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.4819999999999998,
+          ];
+          "dev-saas-stack-WebStack/NextJSSite/Distribution" [
+            label = " Distribution",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-CloudFront_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "dev-saas-stack-WebStack/NextJSSite/CustomResource" [
+            label = " CloudFormation\nCustomResource\nCustomResource",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_AWS-CloudFormation_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.898,
+          ];
+        }
+      }
+      subgraph "cluster-SubGraph.dev-saas-stack-ApiStack" {
+        graph [
+          label = "dev-saas-stack-ApiStack",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#e4e4e4",
+        ];
+        subgraph "cluster-SubGraph.API" {
+          graph [
+            label = "API",
+            labelloc = "b",
+            labeljust = "l",
+            margin = "10",
+            fontsize = "16",
+            penwidth = "2",
+            pencolor = "#888888",
+            style = "filled,rounded",
+            fillcolor = "#d6d6d6",
+          ];
+          "dev-saas-stack-ApiStack/API/Api" [
+            label = " Api",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "dev-saas-stack-ApiStack/API/LogGroup" [
+            label = " LogGroup",
+            fontsize = 12,
+          ];
+          "dev-saas-stack-ApiStack/API/Lambda_GET_--" [
+            label = " Lambda_GET_--",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "dev-saas-stack-ApiStack/API/Route_GET_--" [
+            label = " Route_GET_--",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+        }
+      }
+    }
+  }
+  "dev-saas-stack-AuthStack/BaseAuth/UserPool" -> "dev-saas-stack-AuthStack/PostConfirmationFunction" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/UserPoolClient" -> "dev-saas-stack-AuthStack/BaseAuth/UserPool" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/IdentityPool" -> "dev-saas-stack-AuthStack/BaseAuth/UserPool" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/IdentityPool" -> "dev-saas-stack-AuthStack/BaseAuth/UserPoolClient" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolAuthRole" -> "dev-saas-stack-AuthStack/BaseAuth/IdentityPool" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolUnauthRole" -> "dev-saas-stack-AuthStack/BaseAuth/IdentityPool" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolRoleAttachment" -> "dev-saas-stack-AuthStack/BaseAuth/IdentityPool" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolRoleAttachment" -> "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolAuthRole" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolRoleAttachment" -> "dev-saas-stack-AuthStack/BaseAuth/IdentityPoolUnauthRole" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/PostConfirmationFunction" -> "dev-saas-stack-AuthStack/BaseAuth/UserPool" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/userpool-policy" -> "dev-saas-stack-AuthStack/BaseAuth/UserPool" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/userpool-policy" -> "dev-saas-stack-AuthStack/PostConfirmationFunction" [
+    dir = "both",
+  ];
+  "dev-saas-stack-AuthStack/MultiTenancyCognitoConfig/SetPrincipalTagAttributeMapCognito" -> "dev-saas-stack-AuthStack/AWS679f53fac002430cb0da5b7982bd2287" [
+    dir = "both",
+  ];
+  "dev-saas-stack-WebStack/NextJSSite/Bucket" -> "dev-saas-stack-WebStack/NextJSSite/Distribution" [
+    dir = "both",
+  ];
+  "dev-saas-stack-WebStack/NextJSSite/CustomResourceUploader" -> "dev-saas-stack-WebStack/NextJSSite/Bucket" [
+    dir = "both",
+  ];
+  "dev-saas-stack-WebStack/NextJSSite/CustomResourceUploader" -> "dev-saas-stack-WebStack/NextJSSite/AwsCliLayer" [
+    dir = "both",
+  ];
+  "dev-saas-stack-WebStack/NextJSSite/CustomResourceHandler" -> "dev-saas-stack-WebStack/NextJSSite/Bucket" [
+    dir = "both",
+  ];
+  "dev-saas-stack-WebStack/NextJSSite/CustomResourceHandler" -> "dev-saas-stack-WebStack/NextJSSite/CustomResourceUploader" [
+    dir = "both",
+  ];
+  "dev-saas-stack-WebStack/NextJSSite/CustomResourceHandler" -> "dev-saas-stack-WebStack/NextJSSite/AwsCliLayer" [
+    dir = "both",
+  ];
+  "dev-saas-stack-WebStack/NextJSSite/Distribution" -> "dev-saas-stack-WebStack/NextJSSite/Bucket" [
+    dir = "both",
+  ];
+  "dev-saas-stack-ApiStack/API/Api" -> "dev-saas-stack-ApiStack/API/LogGroup" [
+    dir = "both",
+  ];
+  "dev-saas-stack-ApiStack/API/LogGroup" -> "dev-saas-stack-ApiStack/API/Api" [
+    dir = "both",
+  ];
+  "dev-saas-stack-ApiStack/API/Route_GET_--" -> "dev-saas-stack-ApiStack/API/Api" [
+    dir = "both",
+  ];
+  "dev-saas-stack-ApiStack/API/Route_GET_--" -> "dev-saas-stack-ApiStack/API/Lambda_GET_--" [
+    dir = "both",
+  ];
+}

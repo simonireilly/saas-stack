@@ -3,12 +3,14 @@ import styles from './Example.module.css'
 import { AuthStateApp } from '../components/amplify/auth-state-app'
 import { DynamoComponent } from '../components/aws/dynamodb'
 import { UserStore } from '../contexts/user-provider'
+import { ApiGatewayComponent } from '../components/aws/api-gateway'
 
 export const Example: FC = () => {
   const { user } = useContext(UserStore)
 
   return (
     <div className={styles.split}>
+      <ApiGatewayComponent />
       <div className={styles.splitItem}>
         <AuthStateApp />
       </div>

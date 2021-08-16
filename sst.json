@@ -3,5 +3,5 @@
   "stage": "dev",
   "region": "eu-west-2",
   "lint": true,
-  "typeCheck": true
+  "typeCheck": false
 }

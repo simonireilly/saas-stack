@@ -43,6 +43,8 @@ export const UserContextProvider = (props: Props): ReactElement => {
   const [authState, setAuthState] = useState<AuthState>(AuthState.SignedOut)
   const [user, setUser] = useState<User>({})
 
+  console.info('Current User', { user })
+
   return (
     <UserStore.Provider
       value={{

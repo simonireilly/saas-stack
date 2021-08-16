@@ -12,6 +12,7 @@ export interface PrincipalTagAttributeMapProp {
     [key: string]: string
   }
 }
+
 /**
  * To support multi-tenancy, in federated identities, it is possible to forward
  * claims into the role assumed by the user.
@@ -19,6 +20,8 @@ export interface PrincipalTagAttributeMapProp {
  * To do this, a map of values is set, see: https://www.youtube.com/watch?v=tAUmz94O2Qo
  */
 export class PrincipalTagAttributeMap extends Construct {
+  readonly resource: AwsCustomResource
+
   constructor(
     scope: Construct,
     id: string,
@@ -26,7 +29,28 @@ export class PrincipalTagAttributeMap extends Construct {
   ) {
     super(scope, id)
 
-    const baseProps = {
+    const awsSdkCall = this.buildAwsSdkCall(props)
+
+    this.resource = new AwsCustomResource(
+      this,
+      'SetPrincipalTagAttributeMapCognito',
+      {
+        installLatestAwsSdk: false,
+        onCreate: awsSdkCall,
+        onUpdate: awsSdkCall,
+        onDelete: {
+          ...awsSdkCall,
+          parameters: { ...awsSdkCall.parameters, UseDefaults: true },
+        },
+        policy: AwsCustomResourcePolicy.fromSdkCalls({
+          resources: AwsCustomResourcePolicy.ANY_RESOURCE,
+        }),
+      }
+    )
+  }
+
+  private buildAwsSdkCall(props: PrincipalTagAttributeMapProp) {
+    return {
       service: 'CognitoIdentity',
       action: 'setPrincipalTagAttributeMap',
       parameters: {
@@ -39,18 +63,5 @@ export class PrincipalTagAttributeMap extends Construct {
       },
       physicalResourceId: PhysicalResourceId.of('cognito-set-principal-tags'),
     }
-
-    new AwsCustomResource(this, 'SetPrincipalTagAttributeMapCognito', {
-      installLatestAwsSdk: false,
-      onCreate: baseProps,
-      onUpdate: baseProps,
-      onDelete: {
-        ...baseProps,
-        parameters: { ...baseProps.parameters, UseDefaults: true },
-      },
-      policy: AwsCustomResourcePolicy.fromSdkCalls({
-        resources: AwsCustomResourcePolicy.ANY_RESOURCE,
-      }),
-    })
   }
 }

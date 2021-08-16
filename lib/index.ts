@@ -2,6 +2,7 @@ import { AuthStack } from './AuthStack'
 import * as sst from '@serverless-stack/resources'
 import DataStack from './DataStack'
 import WebStack from './WebStack'
+import ApiStack from './ApiStack'
 
 export interface MultiStackProps extends sst.StackProps {
   auth?: sst.Auth
@@ -20,6 +21,10 @@ export default function main(app: sst.App): void {
   })
 
   new WebStack(app, 'WebStack', {
+    table: dataStack.table,
+    auth: authStack.auth,
+  })
+  new ApiStack(app, 'ApiStack', {
     table: dataStack.table,
     auth: authStack.auth,
   })

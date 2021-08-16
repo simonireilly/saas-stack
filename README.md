@@ -4,6 +4,7 @@ Creating a construct for Cognito SaaS Multi-tenancy when using Federated Access.
 
 - [Identity Attributes](#identity-attributes)
   - [How it Works](#how-it-works)
+  - [Stacks](#stacks)
   - [Demonstration](#demonstration)
   - [To Do](#to-do)
   - [Reading](#reading)
@@ -17,6 +18,10 @@ As part of the deploy, a custom resource runs that forwards the value of `custom
 This, then, in conjunction with IAM conditions, prevents the client side reading of any data, other than that of the usrs e.g.
 
 ![Design of the stack showing 7 sign up steps](frontend/public/design.drawio.svg)
+
+## Stacks
+
+![Produced by cdk-dia](./diagram.png)
 
 ## Demonstration
 

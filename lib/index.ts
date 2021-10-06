@@ -24,6 +24,7 @@ export default function main(app: sst.App): void {
     table: dataStack.table,
     auth: authStack.auth,
   })
+
   new ApiStack(app, 'ApiStack', {
     table: dataStack.table,
     auth: authStack.auth,

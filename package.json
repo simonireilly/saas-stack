@@ -8,7 +8,7 @@
     "build": "sst build",
     "deploy": "sst deploy",
     "remove": "sst remove",
-    "diagram": "cdk-dia --tree .build/cdk.out/tree.json"
+    "dia": "cdk-dia --tree .build/cdk.out/tree.json"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.111.0",

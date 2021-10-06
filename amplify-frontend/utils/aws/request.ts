@@ -14,7 +14,7 @@ const apiSigner = (idToken: string) =>
   })
 
 export const awsApiGatewayRequest = async <T>(
-  url: string,
+  path: string,
   idToken: string
 ): Promise<T> => {
   const credentials = cognitoCredentialProvider(idToken)
@@ -22,11 +22,12 @@ export const awsApiGatewayRequest = async <T>(
   console.info('Credentials', creds)
 
   const opts = {
-    path: '/',
+    path,
     method: 'GET',
     hostname: '027zjwioj3.execute-api.eu-west-2.amazonaws.com',
     protocol: 'https',
     body: '',
+    headers: {},
   }
 
   aws4.sign(opts, creds)
@@ -39,7 +40,7 @@ export const awsApiGatewayRequest = async <T>(
 
   const request = await signer.sign(
     new HttpRequest({
-      path: '/',
+      path,
       method: 'GET',
       hostname: '027zjwioj3.execute-api.eu-west-2.amazonaws.com',
       protocol: 'https',
@@ -49,9 +50,12 @@ export const awsApiGatewayRequest = async <T>(
 
   console.info('Signed aws request', request)
 
-  return fetch('https://027zjwioj3.execute-api.eu-west-2.amazonaws.com/', {
-    headers: opts.headers,
-  }).then(async (response) => {
+  return fetch(
+    `https://027zjwioj3.execute-api.eu-west-2.amazonaws.com${path}`,
+    {
+      headers: opts.headers,
+    }
+  ).then(async (response) => {
     console.info(response)
     const json = await response.json()
     console.info(json)

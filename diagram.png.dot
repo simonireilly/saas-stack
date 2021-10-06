@@ -357,6 +357,32 @@ digraph "Diagram" {
             width = 1.2,
             height = 1.466,
           ];
+          "dev-saas-stack-ApiStack/API/Lambda_GET_--{org}--test" [
+            label = " Lambda GET   {org} \ntest",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.4819999999999998,
+          ];
+          "dev-saas-stack-ApiStack/API/Route_GET_--{org}--test" [
+            label = " Route GET   {org} \ntest",
+            fontsize = 12,
+            image = "/home/simon/code/stacks/saas-stack/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
         }
       }
     }
@@ -431,6 +457,12 @@ digraph "Diagram" {
     dir = "both",
   ];
   "dev-saas-stack-ApiStack/API/Route_GET_--" -> "dev-saas-stack-ApiStack/API/Lambda_GET_--" [
+    dir = "both",
+  ];
+  "dev-saas-stack-ApiStack/API/Route_GET_--{org}--test" -> "dev-saas-stack-ApiStack/API/Api" [
+    dir = "both",
+  ];
+  "dev-saas-stack-ApiStack/API/Route_GET_--{org}--test" -> "dev-saas-stack-ApiStack/API/Lambda_GET_--{org}--test" [
     dir = "both",
   ];
 }

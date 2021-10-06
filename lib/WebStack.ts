@@ -17,7 +17,7 @@ export default class WebStack extends sst.Stack {
     }
 
     const nextJsSite = new StaticSite(this, 'NextJSSite', {
-      path: 'frontend',
+      path: 'amplify-frontend',
       buildCommand: 'yarn build',
       buildOutput: 'out',
       environment,

@@ -10,7 +10,7 @@ export const ApiGatewayComponent: FC = () => {
     e.preventDefault()
 
     const res = await awsApiGatewayRequest<{ data: 'success' }>(
-      '/',
+      `/${user?.signInUserSession?.idToken.payload['custom:org']}/test` || '/',
       user?.signInUserSession?.idToken.jwtToken || ''
     )
 

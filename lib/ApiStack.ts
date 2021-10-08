@@ -3,6 +3,8 @@ import * as sst from '@serverless-stack/resources'
 import { MultiStackProps } from '.'
 
 export class ApiStack extends sst.Stack {
+  readonly api: sst.Api
+
   constructor(scope: sst.App, id: string, props: MultiStackProps) {
     super(scope, id, props)
 

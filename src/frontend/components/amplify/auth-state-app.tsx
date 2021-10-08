@@ -1,20 +1,10 @@
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components'
-import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import { FC, useContext, useEffect } from 'react'
+import { FC, useContext } from 'react'
 import { UserStore, User } from '../../contexts/user-provider'
 
 export const AuthStateApp: FC = () => {
-  const { setAuthState, setUser, user, authState } = useContext(UserStore)
+  const { user } = useContext(UserStore)
 
-  useEffect(() => {
-    return onAuthUIStateChange((nextAuthState, authData) => {
-      setAuthState?.(nextAuthState)
-      const userData = authData as User
-      setUser?.(userData)
-    })
-  }, [setAuthState, setUser])
-
-  return authState === AuthState.SignedIn && user ? (
+  const loggedInFragment = (user: User) => (
     <div>
       <div>
         <p>Hello, {user?.attributes?.email}</p>
@@ -32,9 +22,19 @@ export const AuthStateApp: FC = () => {
           )}
         </pre>
       </div>
-      <AmplifySignOut />
     </div>
-  ) : (
-    <AmplifyAuthenticator />
+  )
+
+  return (
+    <div>
+      <h2>Multi-tenant Features</h2>
+      {user ? (
+        loggedInFragment(user)
+      ) : (
+        <div>
+          <p>Sign in to access these features</p>
+        </div>
+      )}
+    </div>
   )
 }

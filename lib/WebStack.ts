@@ -14,6 +14,7 @@ export class WebStack extends sst.Stack {
         props?.auth?.cognitoUserPoolClient?.userPoolClientId || '',
       NEXT_PUBLIC_USER_POOL_ID: props?.auth?.cognitoUserPool?.userPoolId || '',
       NEXT_PUBLIC_MULTI_TENANT_TABLE_NAME: props.table?.tableName || '',
+      NEXT_PUBLIC_API_URL: props.api?.url || '',
     }
 
     const nextJsSite = new StaticSite(this, 'NextJSSite', {

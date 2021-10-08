@@ -1,9 +1,11 @@
-import { AuthState } from '@aws-amplify/ui-components'
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components'
+import { useRouter } from 'next/dist/client/router'
 import {
   createContext,
   Dispatch,
   ReactElement,
   SetStateAction,
+  useEffect,
   useState,
 } from 'react'
 
@@ -43,7 +45,19 @@ export const UserContextProvider = (props: Props): ReactElement => {
   const [authState, setAuthState] = useState<AuthState>(AuthState.SignedOut)
   const [user, setUser] = useState<User>({})
 
-  console.info('Current User', { user })
+  const router = useRouter()
+
+  useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState?.(nextAuthState)
+      const userData = authData as User
+      setUser?.(userData)
+
+      if (nextAuthState === AuthState.SignedIn) {
+        router.push('/test')
+      }
+    })
+  }, [setAuthState, setUser, router])
 
   return (
     <UserStore.Provider

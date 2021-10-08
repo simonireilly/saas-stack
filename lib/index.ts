@@ -7,6 +7,7 @@ import { ApiStack } from './ApiStack'
 export interface MultiStackProps extends sst.StackProps {
   auth?: sst.Auth
   table?: sst.Table
+  api?: sst.Api
 }
 
 export default function main(app: sst.App): void {
@@ -20,13 +21,14 @@ export default function main(app: sst.App): void {
     auth: authStack.auth,
   })
 
-  new WebStack(app, 'WebStack', {
+  const apiStack = new ApiStack(app, 'ApiStack', {
     table: dataStack.table,
     auth: authStack.auth,
   })
 
-  new ApiStack(app, 'ApiStack', {
+  new WebStack(app, 'WebStack', {
     table: dataStack.table,
     auth: authStack.auth,
+    api: apiStack.api,
   })
 }

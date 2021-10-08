@@ -39,7 +39,7 @@ export class ApiStack extends sst.Stack {
     props.auth && props.auth.attachPermissionsForAuthUsers([tenantPolicy])
 
     this.addOutputs({
-      ApiUrl: api.url,
+      ApiUrl: this.api.url,
     })
   }
 }

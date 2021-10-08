@@ -2,15 +2,14 @@ import { Effect, PolicyStatement } from '@aws-cdk/aws-iam'
 import * as sst from '@serverless-stack/resources'
 import { MultiStackProps } from '.'
 
-export default class ApiStack extends sst.Stack {
+export class ApiStack extends sst.Stack {
   constructor(scope: sst.App, id: string, props: MultiStackProps) {
     super(scope, id, props)
 
     const api = new sst.Api(this, 'API', {
       defaultAuthorizationType: sst.ApiAuthorizationType.AWS_IAM,
       routes: {
-        'GET /': 'src/api.handler',
-        'GET /{org}/test': 'src/api.handler',
+        'GET /{org}/test': 'src/backend/api.handler',
       },
       cors: true,
     })
@@ -18,7 +17,12 @@ export default class ApiStack extends sst.Stack {
     /**
      * Policy that enables a tenant to access their entire organizations data.
      *
-     * Entires in dynamoDB needs to begin with
+     * Once a user has an org ID, they can access those urls that have their org
+     * associated, but no other urls.
+     *
+     * This assumes we are building an API like:
+     *
+     * /a485d3c7-99aa-45b5-971e-a510ea158c1e/projects/1
      *
      */
     const tenantPolicy = new PolicyStatement({

@@ -20,5 +20,5 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["lib", "src"],
-  "exclude": ["frontend"]
+  "exclude": ["src/frontend"]
 }

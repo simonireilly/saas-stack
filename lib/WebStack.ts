@@ -2,7 +2,7 @@ import * as sst from '@serverless-stack/resources'
 import { StaticSite } from '@serverless-stack/resources'
 import { MultiStackProps } from '.'
 
-export default class WebStack extends sst.Stack {
+export class WebStack extends sst.Stack {
   constructor(scope: sst.App, id: string, props: MultiStackProps) {
     super(scope, id, props)
 
@@ -17,7 +17,7 @@ export default class WebStack extends sst.Stack {
     }
 
     const nextJsSite = new StaticSite(this, 'NextJSSite', {
-      path: 'frontend',
+      path: 'src/frontend',
       buildCommand: 'yarn build',
       buildOutput: 'out',
       environment,

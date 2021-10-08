@@ -3,7 +3,7 @@ import * as cdk from '@aws-cdk/core'
 import { Effect, PolicyStatement } from '@aws-cdk/aws-iam'
 import { MultiStackProps } from '.'
 
-export default class DataStack extends sst.Stack {
+export class DataStack extends sst.Stack {
   public readonly table: sst.Table
 
   constructor(scope: sst.App, id: string, props: MultiStackProps) {

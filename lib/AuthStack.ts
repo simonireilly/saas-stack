@@ -33,7 +33,7 @@ export class AuthStack extends sst.Stack {
       this,
       'PostConfirmationFunction',
       {
-        handler: 'src/lambda.postConfirmation',
+        handler: 'src/backend/lambda.postConfirmation',
       }
     )
 

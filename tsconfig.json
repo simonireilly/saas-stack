@@ -19,5 +19,6 @@
     "strictPropertyInitialization": false,
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["lib", "src"]
+  "include": ["lib", "src"],
+  "exclude": ["src/frontend"]
 }

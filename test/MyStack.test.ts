@@ -1,8 +1,8 @@
-import * as sst from "@serverless-stack/resources";
-import MyStack from "../lib/MyStack";
+import * as sst from '@serverless-stack/resources'
+import { AuthStack } from '../lib/AuthStack'
 
-test("Test Stack", () => {
-  const app = new sst.App();
+test('Test Stack', () => {
+  const app = new sst.App()
   // WHEN
-  new MyStack(app, "test-stack");
-});
+  new AuthStack(app, 'test-stack')
+})

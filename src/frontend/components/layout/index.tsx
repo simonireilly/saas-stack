@@ -1,9 +1,14 @@
 import Head from 'next/head'
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import styles from './Index.module.css'
 import Link from 'next/link'
+import { AmplifySignOut } from '@aws-amplify/ui-react'
+import { UserStore } from '../../contexts/user-provider'
+import { AuthState } from '@aws-amplify/ui-components'
 
 export const Layout: FC = ({ children }) => {
+  const { authState } = useContext(UserStore)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -23,6 +28,13 @@ export const Layout: FC = ({ children }) => {
           <Link passHref href="/test">
             <div className={styles.navItem}>Test</div>
           </Link>
+          {authState === AuthState.SignedIn ? (
+            <AmplifySignOut />
+          ) : (
+            <Link passHref href="/auth">
+              <div className={styles.navItem}>Sign in</div>
+            </Link>
+          )}
           <a
             href="https://github.com/simonireilly/saas-stack"
             target="_blank"

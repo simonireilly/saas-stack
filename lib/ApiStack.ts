@@ -8,7 +8,7 @@ export class ApiStack extends sst.Stack {
   constructor(scope: sst.App, id: string, props: MultiStackProps) {
     super(scope, id, props)
 
-    const api = new sst.Api(this, 'API', {
+    this.api = new sst.Api(this, 'API', {
       defaultAuthorizationType: sst.ApiAuthorizationType.AWS_IAM,
       routes: {
         'GET /{org}/test': 'src/backend/api.handler',

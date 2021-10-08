@@ -1,0 +1,2 @@
+before_build:
+  - yarn --cwd src/frontend install

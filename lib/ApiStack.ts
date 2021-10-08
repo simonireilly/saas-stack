@@ -32,7 +32,7 @@ export class ApiStack extends sst.Stack {
       effect: Effect.ALLOW,
       actions: ['execute-api:Invoke'],
       resources: [
-        `arn:aws:execute-api:${this.region}:${this.account}:${api.httpApi.apiId}/$default/GET/\${aws:PrincipalTag/org}/*`,
+        `arn:aws:execute-api:${this.region}:${this.account}:${this.api.httpApi.apiId}/$default/GET/\${aws:PrincipalTag/org}/*`,
       ],
     })
 

@@ -15,7 +15,7 @@ const cognitoClient = new CognitoIdentityClient({
 })
 
 /**
- * If idToken exists, use authenticated permissions for dynamo
+ * If idToken exists, use authenticated permissions
  *
  * @param idToken
  */

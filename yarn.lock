@@ -1806,6 +1806,21 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@cdk-utils/utils@^0.0.1-alpha.68":
+  version "0.0.1-alpha.68"
+  resolved "https://registry.yarnpkg.com/@cdk-utils/utils/-/utils-0.0.1-alpha.68.tgz#f6507fb9613aa31d4da0da185a39f79e4f73e73d"
+  integrity sha512-FVRpQeIBDLyR5/8DjWtnHA89Vy95WfljtIcmN0I2AyrMc2qbZ2lLBubUGjowNQy38XJMLs+SbS2xcTnP2wtyqQ==
+  dependencies:
+    axios "0.21.1"
+
+"@cdk-utils/vercel-secret-forwarder@canary":
+  version "0.0.1-alpha.68"
+  resolved "https://registry.yarnpkg.com/@cdk-utils/vercel-secret-forwarder/-/vercel-secret-forwarder-0.0.1-alpha.68.tgz#7323bf6f9785d2b11ab3f268af74fedf9413ffca"
+  integrity sha512-MYkAWo1claUfnZwuQ9YPJGzG7sspZPiP8ObQDltxhgMj0vhw9QGwmu8h06RDJplCEZKFTiWP6Z5JaHKcYa2j4g==
+  dependencies:
+    "@cdk-utils/utils" "^0.0.1-alpha.68"
+    axios "0.21.1"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -2668,6 +2683,13 @@ aws-sdk@^2.761.0, aws-sdk@^2.848.0:
     url "0.10.3"
     uuid "3.3.2"
     xml2js "0.4.19"
+
+axios@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 babel-jest@^26.6.3:
   version "26.6.3"
@@ -3993,6 +4015,11 @@ flatted@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.0.tgz#da07fb8808050aba6fdeac2294542e5043583f05"
   integrity sha512-XprP7lDrVT+kE2c2YlfiV+IfS9zxukiIOvNamPNsImNhXadSsQEbosItdL9bUQlCZXR13SvPk20BjWSWLA7m4A==
+
+follow-redirects@^1.10.0:
+  version "1.14.5"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.5.tgz#f09a5848981d3c772b5392309778523f8d85c381"
+  integrity sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==
 
 for-in@^1.0.2:
   version "1.0.2"

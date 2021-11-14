@@ -28,3 +28,6 @@ Makefile
 
 # Dont store coverage
 coverage
+
+.vercel
+.env

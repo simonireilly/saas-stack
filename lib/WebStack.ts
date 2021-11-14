@@ -1,7 +1,11 @@
 import * as sst from '@serverless-stack/resources'
-import { StaticSite } from '@serverless-stack/resources'
+import { VercelSecretSyncConstruct } from '@cdk-utils/vercel-secret-forwarder'
 import { MultiStackProps } from '.'
 
+/**
+ * Moved preview builds to vercel, so teh web stack just forwards the secrets to
+ * the configured preview environment now
+ */
 export class WebStack extends sst.Stack {
   constructor(scope: sst.App, id: string, props: MultiStackProps) {
     super(scope, id, props)
@@ -17,15 +21,17 @@ export class WebStack extends sst.Stack {
       NEXT_PUBLIC_API_URL: props.api?.url || '',
     }
 
-    const nextJsSite = new StaticSite(this, 'NextJSSite', {
-      path: 'src/frontend',
-      buildCommand: 'yarn build',
-      buildOutput: 'out',
-      environment,
-    })
-
-    this.addOutputs({
-      SiteUrl: nextJsSite.url,
-    })
+    const vercel = new VercelSecretSyncConstruct(
+      this,
+      'SendSecretsToVercelPreviews',
+      {
+        GitBranch: 'vercel-deploys',
+        VercelProjectName: 'saas-stack',
+        VercelProjectId: String(process.env.VERCEL_PROJECT_ID),
+        VercelProjectOrganisation: String(process.env.VERCEL_ORGANISATION_ID),
+        VercelAuthToken: String(process.env.VERCEL_AUTH_TOKEN),
+        VercelEnvironmentVariables: environment,
+      }
+    )
   }
 }

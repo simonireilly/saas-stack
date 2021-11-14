@@ -29,7 +29,7 @@ export class WebStack extends sst.Stack {
         VercelProjectName: 'saas-stack',
         VercelProjectId: String(process.env.VERCEL_PROJECT_ID),
         VercelProjectOrganisation: String(process.env.VERCEL_ORGANISATION_ID),
-        VercelAuthToken: String(process.env.VERCEL_AUTH_TOKEN),
+        VercelAuthToken: String(process.env.VERCEL_API_TOKEN),
         VercelEnvironmentVariables: environment,
       }
     )
